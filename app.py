@@ -319,12 +319,10 @@ def halaman_prediksi():
     data_baru = None
 
     if mode_input == "Pilih dari Dataset":
-        df = pd.read_csv(DATASET_PATH).dropna(subset=FITUR_POLUTAN)
-        df["tanggal_lengkap"] = pd.to_datetime(
-            df["periode_data"].astype(str) + df["tanggal"].astype(str).str.zfill(2),
-            format="%Y%m%d", errors="coerce",
-        )
+        df = pd.read_csv(DATASET_PATH)
+        df["tanggal_lengkap"] = pd.to_datetime(df["tanggal"], errors="coerce")
         df = df.dropna(subset=["tanggal_lengkap"])
+        df = df.dropna(subset=FITUR_POLUTAN)
 
         stasiun = st.selectbox("Pilih Stasiun", sorted(df["stasiun"].unique()))
         df_stasiun = df[df["stasiun"] == stasiun].sort_values("tanggal_lengkap")
@@ -332,7 +330,12 @@ def halaman_prediksi():
             "Pilih Tanggal", df_stasiun["tanggal_lengkap"].dt.date.tolist(),
             format_func=lambda d: d.strftime("%d %B %Y"),
         )
-        data_pilih = df_stasiun[df_stasiun["tanggal_lengkap"].dt.date == tanggal].iloc[0]
+        
+        data_filtered = df_stasiun[df_stasiun["tanggal_lengkap"].dt.date == tanggal]
+        if len(data_filtered) == 0:
+            st.error(f"Data tidak ditemukan untuk stasiun {stasiun} pada tanggal {tanggal}")
+            return
+        data_pilih = data_filtered.iloc[0]
 
         st.subheader("Data Sensor Polutan")
         cols = st.columns(3)
