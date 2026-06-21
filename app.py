@@ -16,7 +16,7 @@ DATASET_PATH = "dataset_ispu_jakarta.csv"
 MODEL_DIR = "saved_models"
 FITUR_POLUTAN = ["pm25", "pm10", "so2", "co", "o3", "no2"]
 VALID_LABELS = ["BAIK", "SEDANG", "TIDAK SEHAT"]
-COLS_TO_DROP = ["periode_data", "bulan", "tanggal", "stasiun", "parameter_pencemar_kritis", "max"]
+COLS_TO_DROP = ["tanggal", "periode_data", "stasiun", "parameter_pencemar_kritis", "max"]
 MODEL_FILES = {
     "Random Forest": "best_random_forest_model.pkl",
     "KNN": "best_knn_model.pkl",
