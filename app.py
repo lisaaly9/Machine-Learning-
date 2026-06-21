@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 
 warnings.filterwarnings("ignore")
 
-DATASET_PATH = "dataset_ispu_jakarta.csv"
+DATASET_PATH = "ispu_jakarta.csv"
 MODEL_DIR = "saved_models"
 FITUR_POLUTAN = ["pm25", "pm10", "so2", "co", "o3", "no2"]
 VALID_LABELS = ["BAIK", "SEDANG", "TIDAK SEHAT"]
